@@ -78,10 +78,11 @@ public class TileEntityRaintank extends TileEntity implements ITickable{
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		/* Cannot interact with the tank from the top; you can't stack raintanks as a sort of pipeline */
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing != EnumFacing.UP) {
 			return true;
 		}
-		return false;
+		return super.hasCapability(capability, facing);
 	}
 	
 	@Override
@@ -89,7 +90,7 @@ public class TileEntityRaintank extends TileEntity implements ITickable{
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing != EnumFacing.UP) {
 			return (T) this.tank;
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 	
 	@Override
